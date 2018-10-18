@@ -1,28 +1,23 @@
 package com.webbuilders.webgym.controller;
 
-import com.webbuilders.webgym.domain.Category;
-import com.webbuilders.webgym.repositories.CategoryRepository;
+import com.webbuilders.webgym.services.ProductService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Optional;
 
 @Controller
 public class IndexController {
 
-    private CategoryRepository categoryRepository;
+    private final ProductService productService;
 
-    //constructor based DI
-    public IndexController(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public IndexController(ProductService productService) {
+        this.productService = productService;
     }
 
     @RequestMapping({"", "/", "/index"})
-    public String getIndexPage(){
+    public String getIndexPage(Model model) {
 
-        Optional<Category> categoryOptional = categoryRepository.findByDescription("Protein");
-
-        System.out.println("The category is: " + categoryOptional.get().getId());
+        model.addAttribute("products", productService.getProducts());
 
         return "index";
     }

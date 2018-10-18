@@ -17,8 +17,6 @@ public class Product {
 
     private String name;
 
-    private Category category;
-
     private String url;
 
     private Integer servings;
