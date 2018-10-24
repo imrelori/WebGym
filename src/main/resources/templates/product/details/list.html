@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List Details</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+            th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"
+            th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"
+            th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!--/*@thymesVar id="product" type="com.webbuilders.webgym.domain.Product"*/-->
+<!--/*@thymesVar id="details" type="com.webbuilders.webgym.commands.DetailsCommand"*/-->
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-11 ">
+                            <h1 class="panel-title">Details</h1>
+                        </div>
+                        <div class="col-md-1">
+                            <a class="btn btn-default" href="#" th:href="@{'/product/' + ${product.id} + '/detail/new'}" role="button">New</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-body">
+
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(product.details)}">
+                        <table class="table table-hover ">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th>ID</th>
+                                <th>Flavor</th>
+                                <th>Dosage</th>
+                                <th>Ingredients</th>
+                                <th>Allergens</th>
+                                <th>View</th>
+                            </tr>
+                            </thead>
+                            <!--<tr th:remove="all">
+                                <td>123</td>
+                                <td>Beef Protein</td>
+                                <td><a href="#">View</a></td>
+                                <td><a href="#">Update</a></td>
+                                <td><a href="#">Delete</a></td>
+                            </tr>-->
+                            <tr th:each="detail : ${product.details}">
+                                <td th:text="${detail.id}">334</td>
+                                <td th:text="${detail.flavor_name}">Chocolate</td>
+                                <td th:text="${detail.dosage}">1000 g</td>
+                                <td th:text="${detail.getIngredients()}">comps</td>
+                                <td th:text="${detail.getAllergen_info()}">comps</td>
+                                <td><a href="#" th:href="@{'/product/' + ${product.id} + '/details/' + ${detail.id} + '/show'}">View</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
