@@ -5,3 +5,6 @@ INSERT INTO category (description) VALUES ('Creatine');
 INSERT INTO category (description) VALUES ('Vitamin');
 INSERT INTO category (description) VALUES ('Gainer');
 INSERT INTO category (description) VALUES ('Fat burner');
+INSERT INTO user (role) VALUES ('admin');
+INSERT INTO user (role) VALUES ('guest');
+INSERT INTO user (role) VALUES ('registered user');

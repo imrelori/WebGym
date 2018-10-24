@@ -4,6 +4,7 @@ import com.webbuilders.webgym.domain.*;
 import com.webbuilders.webgym.repositories.CategoryRepository;
 import com.webbuilders.webgym.repositories.ProductRepository;
 import com.webbuilders.webgym.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class ProductBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -30,7 +32,7 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         productRepository.saveAll(getProducts());
-        //log.debug("Loading Bootstrap Data");
+        log.debug("Booting The Data");
     }
 
     private List<Product> getProducts() {
@@ -39,11 +41,19 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
 
         Optional<Category> proteinCategoryOptional = categoryRepository.findByDescription("Protein");
 
-        if(!proteinCategoryOptional.isPresent()){
+        if (!proteinCategoryOptional.isPresent()){
             throw new RuntimeException("Expected Category Not Found");
         }
 
         Category proteinCategory = proteinCategoryOptional.get();
+
+        /*Optional<User> adminUserOptional = userRepository.findByRole("admin");
+
+        if (!adminUserOptional.isPresent()){
+            throw new RuntimeException("Expected User Not Found");
+        }
+
+        User adminUser = adminUserOptional.get();*/
 
         Product beefProtein = new Product();
         beefProtein.setName("Beef Protein");
@@ -65,15 +75,16 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
 
         Details beefProteinDetails = new Details();
         Components beef = new Components();
+        beef.setName("beef");
         beefProteinDetails.ingredients.add(beef);
+        beefProteinDetails.allergen_info.add(beef);
 
         beefProtein.addDetails(new Details("Chocolate", beefProteinDetails.ingredients, beefProteinDetails.allergen_info, "one scope after workout"));
 
         beefProtein.getCategories().add(proteinCategory);
-        //add to return list
+
         products.add(beefProtein);
 
         return products;
     }
-
 }

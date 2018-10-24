@@ -2,17 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>WebGym</title>
+    <title>WebGym Home Page</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}">
+
+    <script src="/webjars/jquery/3.3.1-1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+            th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"
+            th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
             integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous"
+            th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
 
 </head>
 <body>
+<!--/*@thymesVar id="products" type="java.util.List"*/-->
+<!--/*@thymesVar id="product" type="com.webbuilders.webgym.domain.Product"*/-->
 </div>
 
 <div class="container-fluid" style="margin-top: 20px">
@@ -35,6 +52,7 @@
                             <tr th:each="product : ${products}">
                                 <td th:text="${product.id}">334</td>
                                 <td th:text="${product.description}">Beef!</td>
+                                <td><a href="#" th:href="@{'/product/' + ${product.id} + '/show'}">View</a></td>
                             </tr>
                         </table>
                     </div>
