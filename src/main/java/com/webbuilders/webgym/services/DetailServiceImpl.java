@@ -29,6 +29,7 @@ public class DetailServiceImpl implements DetailService {
         if (!productOptional.isPresent()){
             //need some error handling by Ati
             log.error("product id not found. Id: " + productId);
+            throw new RuntimeException("Product not found with id:" + productId);
         }
 
         Product product = productOptional.get();
@@ -40,6 +41,7 @@ public class DetailServiceImpl implements DetailService {
         if(!detailCommandOptional.isPresent()){
             //need some error handling by Ati
             log.error("Detail id not found: " + detailId);
+            throw new RuntimeException("Detail not found with id:" + detailId);
         }
 
         return detailCommandOptional.get();
