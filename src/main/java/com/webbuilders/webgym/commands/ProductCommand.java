@@ -1,9 +1,6 @@
 package com.webbuilders.webgym.commands;
 
-
 import com.webbuilders.webgym.domain.CartLine;
-import com.webbuilders.webgym.domain.Category;
-import com.webbuilders.webgym.domain.Details;
 import com.webbuilders.webgym.domain.Level;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,12 +18,12 @@ public class ProductCommand {
     private String name;
     private String url;
     private Integer servings;
-    private Set<Details> details = new HashSet<>();
+    private Set<DetailsCommand> details = new HashSet<>();
     private String pack;
     private String description;
     private Integer price;
     private CartLine cartLine;
     private Level level;
-    private Set<Category> categories = new HashSet<>();
+    private Set<CategoryCommand> categories = new HashSet<>();
 
 }
