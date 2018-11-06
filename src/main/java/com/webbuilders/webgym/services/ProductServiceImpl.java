@@ -1,5 +1,8 @@
 package com.webbuilders.webgym.services;
 
+import com.webbuilders.webgym.commands.ProductCommand;
+import com.webbuilders.webgym.converters.ProductCommandToProduct;
+import com.webbuilders.webgym.converters.ProductToProductCommand;
 import com.webbuilders.webgym.domain.Product;
 import com.webbuilders.webgym.repositories.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,11 +17,14 @@ import java.util.Set;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
     private final ProductRepository productRepository;
+    private final ProductCommandToProduct productCommandToProduct;
+    private final ProductToProductCommand productToProductCommand;
 
-    public ProductServiceImpl (ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductCommandToProduct productCommandToProduct, ProductToProductCommand productToProductCommand) {
         this.productRepository = productRepository;
+        this.productCommandToProduct = productCommandToProduct;
+        this.productToProductCommand = productToProductCommand;
     }
 
     @Override
@@ -42,4 +48,22 @@ public class ProductServiceImpl implements ProductService {
         return productOptional.get();
     }
 
+    @Override
+    public ProductCommand findCommandById(Long l) {
+        return productToProductCommand.convert(findProductById(l));
+    }
+
+    @Override
+    public ProductCommand saveRecipeCommand(ProductCommand command) {
+        Product detachedProduct = productCommandToProduct.convert(command);
+
+        Product savedProduct = productRepository.save(detachedProduct);
+        log.debug("Saved ProductId:" + savedProduct.getId());
+        return productToProductCommand.convert(savedProduct);
+    }
+
+    @Override
+    public void deleteById(Long idToDelete) {
+        productRepository.deleteById(idToDelete);
+    }
 }
