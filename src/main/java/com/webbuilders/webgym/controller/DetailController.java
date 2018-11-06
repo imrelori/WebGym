@@ -31,7 +31,7 @@ public class DetailController {
 
     @GetMapping
     @RequestMapping("/product/{productId}/details/{id}/show")
-    public String showPrpductDetails(@PathVariable String productId,
+    public String showProductDetails(@PathVariable String productId,
                                        @PathVariable String id, Model model){
         model.addAttribute("details", detailService.findByProductIdAndDetailId(Long.valueOf(productId), Long.valueOf(id)));
         return "product/details/showDetail";
