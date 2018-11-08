@@ -78,7 +78,7 @@ public class DetailControllerTest {
         ArgumentCaptor<DetailsCommand> argumentCaptor =
                 ArgumentCaptor.forClass(DetailsCommand.class);
 
-        String viewName = controller.showPrpductDetails(String.valueOf(product.getId())
+        String viewName = controller.showProductDetails(String.valueOf(product.getId())
                                                       , String.valueOf(details.getId())
                                                       , model);
 
