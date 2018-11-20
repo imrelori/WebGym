@@ -14,9 +14,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class DetailServiceTest {
 
@@ -24,6 +22,8 @@ public class DetailServiceTest {
     DetailToDetailCommand detailToDetailCommand;
     Long productId = 1L;
     Long detailsId = 1L;
+    Long productIdFail = 2L;
+    Long detailsIdFail = 2L;
 
     Product product;
     Details details;
@@ -54,46 +54,49 @@ public class DetailServiceTest {
         Optional<Product> productOptional = Optional.of(product)
                 .filter(e -> e.getId().equals(productId));
 
-        Optional<DetailsCommand> detailCommandOptional = product.getDetails().stream()
+        when(productRepository.findById(productId)).thenReturn(productOptional);
+        Product returnedProduct = productRepository.findById(productId).get();
+
+        assertEquals(returnedProduct, product);
+
+        verify(productRepository, times(1)).findById(productId);
+        verifyNoMoreInteractions(productRepository);
+
+        Optional<DetailsCommand> detailCommandOptional = returnedProduct.getDetails().stream()
                 .filter(detail -> detail.getId().equals(detailsId))
                 .map(detailToDetailCommand::convert).findFirst();
 
-        when(productRepository.findById(productId)).thenReturn(productOptional);
+        DetailsCommand returnedDetailsCommand = detailToDetailCommand.convert(details);
 
-        DetailsCommand result = detailService.findByProductIdAndDetailId(productId, detailsId);
-        assertEquals(result, detailCommandOptional.get());
+        assertEquals(returnedDetailsCommand.getId(), detailCommandOptional.get().getId());
 
-        verify(productRepository, times(1)).findById(productId);
     }
 
     @Test(expected = RuntimeException.class)
     public void findByProductIdAndDetailIdNoProduct() throws Exception {
 
-        product.setId(2L);
-
+        product.setId(productIdFail);
         Optional<Product> productOptional = Optional.of(product)
                 .filter(e -> e.getId().equals(productId));
 
         when(productRepository.findById(productId)).thenReturn(productOptional);
-        detailService.findByProductIdAndDetailId(productId, 1L);
 
-        verify(productRepository, times(1)).findById(productId);
+        detailService.findByProductIdAndDetailId(productId, productId);
     }
 
     @Test(expected = RuntimeException.class)
     public void findByProductIdAndDetailIdNoDetails() throws Exception {
 
-        product.setId(1L);
-        details.setId(2L);
+        product.setId(productId);
+        details.setId(detailsIdFail);
         product.addDetails(details);
 
         Optional<Product> productOptional = Optional.of(product)
                 .filter(e -> e.getId().equals(productId));
 
         when(productRepository.findById(productId)).thenReturn(productOptional);
-        detailService.findByProductIdAndDetailId(productId, 1L);
 
-        verify(productRepository, times(1)).findById(productId);
+        detailService.findByProductIdAndDetailId(productId, detailsId);
     }
 
 }

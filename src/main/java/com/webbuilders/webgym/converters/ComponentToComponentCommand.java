@@ -21,7 +21,7 @@ public class ComponentToComponentCommand implements Converter<Components, Compon
             return null;
         }
 
-        ComponentsCommand componentsCommand= new ComponentsCommand();
+        ComponentsCommand componentsCommand = new ComponentsCommand();
 
         componentsCommand.setId(component.getId());
         if (component.getDetails() != null) {
