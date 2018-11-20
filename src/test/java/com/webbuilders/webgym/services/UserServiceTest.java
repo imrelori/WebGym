@@ -15,15 +15,14 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
 
     UserServiceImpl userService;
     User user;
     Long userId = 1L;
+    Long userIdFail = 2L;
 
     @Mock
     UserRepository userRepository;
@@ -60,23 +59,25 @@ public class UserServiceTest {
         Optional<User> userOptional = Optional.of(user)
                 .filter(e -> e.getId().equals(userId));
 
-        when(userService.getUserByID(userId)).thenReturn(userOptional.get());
-        User result = userService.getUserByID(userId);
-        assertEquals(result, user);
+        when(userRepository.findById(userId)).thenReturn(userOptional);
+
+        User returned = userService.getUserByID(userId);
 
         verify(userRepository, times(1)).findById(userId);
+        verifyNoMoreInteractions(userRepository);
+
+        assertEquals(returned, user);
     }
 
     @Test(expected = RuntimeException.class)
     public void getUsersByIDNoUser() throws Exception {
 
-        user.setId(2L);
+        user.setId(userIdFail);
         Optional<User> userOptional = Optional.of(user)
                 .filter(e -> e.getId().equals(userId));
 
         when(userService.getUserByID(userId)).thenReturn(userOptional.get());
-        userService.getUserByID(userId);
 
-        verify(userRepository, times(1)).findById(userId);
+        userService.getUserByID(userId);
     }
 }

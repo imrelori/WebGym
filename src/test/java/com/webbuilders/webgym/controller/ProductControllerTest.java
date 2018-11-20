@@ -1,5 +1,6 @@
 package com.webbuilders.webgym.controller;
 
+import com.webbuilders.webgym.commands.ProductCommand;
 import com.webbuilders.webgym.domain.Product;
 import com.webbuilders.webgym.services.ProductService;
 import org.junit.Before;
@@ -24,6 +25,7 @@ public class ProductControllerTest {
     Model model;
 
     ProductController controller;
+    Long productId = 1L;
 
     @Before
     public void setUp() throws Exception {
@@ -37,19 +39,37 @@ public class ProductControllerTest {
     public void showById() {
 
         Product product = new Product();
-        product.setId(1L);
+        product.setId(productId);
 
-        when(productService.findProductById(1L)).thenReturn(product);
+        when(productService.findProductById(productId)).thenReturn(product);
 
         ArgumentCaptor<Product> argumentCaptor = ArgumentCaptor.forClass(Product.class);
 
         String viewName = controller.showById(String.valueOf(product.getId()), model);
 
         assertEquals("product/show", viewName);
-        verify(productService, times(1)).findProductById(1L);
+        verify(productService, times(1)).findProductById(productId);
         verify(model, times(1))
                 .addAttribute(eq("product"), argumentCaptor.capture());
+
         Product productInController = argumentCaptor.getValue();
+
         assertEquals(product, productInController);
+    }
+
+    @Test
+    public void newProduct() {
+
+        ArgumentCaptor<ProductCommand> argumentCaptor = ArgumentCaptor.forClass(ProductCommand.class);
+
+        String viewName = controller.newProduct(model);
+
+        assertEquals("product/formofnewproduct", viewName);
+        verify(model, times(1))
+                .addAttribute(eq("recipe"), argumentCaptor.capture());
+
+        ProductCommand productCommandInController = argumentCaptor.getValue();
+
+        //assertEquals();
     }
 }
