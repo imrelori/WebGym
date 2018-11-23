@@ -29,36 +29,36 @@ public class ProductController {
     }
 
     @GetMapping
-    @RequestMapping("recipe/new")
+    @RequestMapping("product/new")
     public String newProduct(Model model){
-        model.addAttribute("recipe", new ProductCommand());
+        model.addAttribute("product", new ProductCommand());
 
         log.debug("New product is created");
 
-        return "product/formofnewproduct";
+        return "product/productform";
     }
 
     @GetMapping
-    @RequestMapping("recipe/{id}/update")
+    @RequestMapping("product/{id}/update")
     public String updateProduct(@PathVariable String id, Model model){
-        model.addAttribute("recipe", productService.findCommandById(Long.valueOf(id)));
+        model.addAttribute("product", productService.findCommandById(Long.valueOf(id)));
 
         log.debug("Update the product");
 
-        return  "product/recipeform";
+        return "product/productform";
     }
 
-    @PostMapping("recipe")
+    @PostMapping("product")
     public String saveOrUpdate(@ModelAttribute ProductCommand command){
         ProductCommand savedCommand = productService.saveRecipeCommand(command);
 
         log.debug("Save the product");
 
-        return "redirect:/recipe/" + savedCommand.getId() + "/show";
+        return "redirect:/product/" + savedCommand.getId() + "/show";
     }
 
     @GetMapping
-    @RequestMapping("recipe/{id}/delete")
+    @RequestMapping("product/{id}/delete")
     public String deleteById(@PathVariable String id){
 
         log.debug("Delete the product with id: " + id);
