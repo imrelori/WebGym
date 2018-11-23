@@ -1,7 +1,7 @@
 package com.webbuilders.webgym.services;
 
-import com.webbuilders.webgym.converters.ProductCommandToProduct;
-import com.webbuilders.webgym.converters.ProductToProductCommand;
+import com.webbuilders.webgym.commands.ProductCommand;
+import com.webbuilders.webgym.converters.*;
 import com.webbuilders.webgym.domain.Product;
 import com.webbuilders.webgym.repositories.ProductRepository;
 import org.junit.Before;
@@ -13,19 +13,26 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class ProductServiceTest {
 
-    ProductServiceImpl productService;
+    ComponentCommandToComponent componentCommandToComponent;
+    CategoryCommandToCategory categoryCommandToCategory;
+    DetailCommandToDetail detailCommandToDetail;
     ProductCommandToProduct productCommandToProduct;
+
+    ComponentToComponentCommand componentToComponentCommand;
+    DetailToDetailCommand detailToDetailCommand;
+    CategoryToCategoryCommand categoryToCategoryCommand;
     ProductToProductCommand productToProductCommand;
+
+    ProductServiceImpl productService;
     Product product;
+
     Long productId = 1L;
+    Long productIdFail = 2L;
 
     @Mock
     ProductRepository productRepository;
@@ -34,6 +41,16 @@ public class ProductServiceTest {
     public void setUp() throws Exception {
 
         MockitoAnnotations.initMocks(this);
+
+        componentCommandToComponent = new ComponentCommandToComponent();
+        categoryCommandToCategory = new CategoryCommandToCategory();
+        detailCommandToDetail = new DetailCommandToDetail(componentCommandToComponent);
+        productCommandToProduct = new ProductCommandToProduct(categoryCommandToCategory, detailCommandToDetail);
+
+        componentToComponentCommand = new ComponentToComponentCommand();
+        detailToDetailCommand = new DetailToDetailCommand(componentToComponentCommand);
+        categoryToCategoryCommand = new CategoryToCategoryCommand();
+        productToProductCommand = new ProductToProductCommand(detailToDetailCommand, categoryToCategoryCommand);
 
         productService = new ProductServiceImpl(productRepository, productCommandToProduct, productToProductCommand);
         product = new Product();
@@ -62,24 +79,62 @@ public class ProductServiceTest {
         Optional<Product> productOptional = Optional.of(product)
                 .filter(e -> e.getId().equals(productId));
 
-        when(productService.findProductById(productId)).thenReturn(productOptional.get());
-        Product result = productService.findProductById(productId);
+        when(productRepository.findById(productId)).thenReturn(productOptional);
 
-        assertEquals(result, product);
+        Product returned = productService.findProductById(productId);
 
         verify(productRepository, times(1)).findById(productId);
+        verifyNoMoreInteractions(productRepository);
+
+        assertEquals(product, returned);
     }
 
     @Test(expected = RuntimeException.class)
     public void findProductByIdNoProduct() throws Exception {
 
-        product.setId(2L);
+        product.setId(productIdFail);
         Optional<Product> productOptional = Optional.of(product)
                 .filter(e -> e.getId().equals(productId));
 
-        when(productService.findProductById(productId)).thenReturn(productOptional.get());
-        productService.findProductById(productId);
+        when(productRepository.findById(productId)).thenReturn(productOptional);
+
+        productService.findProductById(productIdFail);
+    }
+
+    @Test
+    public void findCommandById() {
+
+        product.setId(productId);
+        Optional<Product> productOptional = Optional.of(product)
+                .filter(e -> e.getId().equals(productId));
+
+        when(productRepository.findById(productId)).thenReturn(productOptional);
+
+
+        ProductCommand result =
+                productToProductCommand.convert(productService.findProductById(productId));
 
         verify(productRepository, times(1)).findById(productId);
+        verifyNoMoreInteractions(productRepository);
+
+        assertEquals(result.getId(), productId);
+    }
+
+    @Test
+    public void saveProductCommand() {
+
+        ProductCommand productCommand = new ProductCommand();
+        productCommand.setId(productId);
+        Product detachedProduct = productCommandToProduct.convert(productCommand);
+
+        when(productRepository.save(detachedProduct)).thenReturn(detachedProduct);
+
+        Product saveProduct = productRepository.save(detachedProduct);
+        productCommand = productToProductCommand.convert(saveProduct);
+
+        assertEquals(productCommand.getId(), productId);
+
+        verify(productRepository, times(1)).save(detachedProduct);
+        verifyNoMoreInteractions(productRepository);
     }
 }

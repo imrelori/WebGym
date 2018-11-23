@@ -21,6 +21,7 @@ public class CategoryServiceTest {
     CategoryServiceImpl categoryService;
     Category category;
     Long categoryId = 1L;
+    Long categoryIdFail = 2L;
 
     @Mock
     CategoryRepository categoryRepository;
@@ -57,24 +58,25 @@ public class CategoryServiceTest {
         Optional<Category> categoryOptional = Optional.of(category)
                 .filter(e -> e.getId().equals(categoryId));
 
-        when(categoryService.findCategoryById(categoryId)).thenReturn(categoryOptional.get());
-        Category result = categoryService.findCategoryById(categoryId);
+        when(categoryRepository.findById(categoryId)).thenReturn(categoryOptional);
 
-        assertEquals(result, category);
+        Category returned = categoryService.findCategoryById(categoryId);
 
         verify(categoryRepository, times(1)).findById(categoryId);
+        verifyNoMoreInteractions(categoryRepository);
+
+        assertEquals(category, returned);
     }
 
     @Test(expected = RuntimeException.class)
     public void findCategoryByIdNoCategory() throws Exception {
 
-        category.setId(2L);
+        category.setId(categoryIdFail);
         Optional<Category> categoryOptional = Optional.of(category)
                 .filter(e -> e.getId().equals(categoryId));
 
-        when(categoryService.findCategoryById(categoryId)).thenReturn(categoryOptional.get());
-        categoryService.findCategoryById(categoryId);
+        when(categoryRepository.findById(categoryId)).thenReturn(categoryOptional);
 
-        verify(categoryRepository, times(1)).findById(categoryId);
+        categoryService.findCategoryById(categoryIdFail);
     }
 }
