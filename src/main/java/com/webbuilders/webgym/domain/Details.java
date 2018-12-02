@@ -21,18 +21,25 @@ public class Details {
 
     private String flavor_name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "details")
-    public Set<Components> ingredients = new HashSet<>();
+    @Lob
+    public String ingredients;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "details") // kell ez ide?
-    public Set<Components> allergen_info = new HashSet<>();
+    public String allergen_info;
 
     private String dosage;
 
     public Details() {
     }
 
-    public Details(String flavor_name, Set<Components> ingredients, Set<Components> allergen_info, String dosage) {
+    public Details(String flavor_name, String ingredients, String allergen_info, String dosage) {
+        this.flavor_name = flavor_name;
+        this.ingredients = ingredients;
+        this.allergen_info = allergen_info;
+        this.dosage = dosage;
+    }
+
+    public Details(Product product, String flavor_name, String ingredients, String allergen_info, String dosage) {
+        this.product = product;
         this.flavor_name = flavor_name;
         this.ingredients = ingredients;
         this.allergen_info = allergen_info;

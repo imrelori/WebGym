@@ -12,12 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class DetailToDetailCommand implements Converter<Details, DetailsCommand> {
 
-    private final ComponentToComponentCommand componentConverter;
-
-    public DetailToDetailCommand(ComponentToComponentCommand componentConverter) {
-        this.componentConverter = componentConverter;
-    }
-
     @Synchronized
     @Nullable
     @Override
@@ -33,16 +27,7 @@ public class DetailToDetailCommand implements Converter<Details, DetailsCommand>
             command.setId(detail.getProduct().getId());
         }
         command.setDosage(detail.getDosage());
-
-        if (detail.getAllergen_info() != null && detail.getAllergen_info().size() > 0){
-            detail.getAllergen_info()
-                    .forEach((Components component) -> command.getAllergen_info().add(componentConverter.convert(component)));
-        }
-
-        if (detail.getIngredients() != null && detail.getIngredients().size() > 0){
-            detail.getIngredients()
-                    .forEach((Components component) -> command.getIngredients().add(componentConverter.convert(component)));
-        }
+        command.setIngredient(detail.getIngredients());
 
         return command;
     }

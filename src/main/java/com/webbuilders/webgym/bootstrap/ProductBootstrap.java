@@ -56,30 +56,29 @@ public class ProductBootstrap implements ApplicationListener<ContextRefreshedEve
         User adminUser = adminUserOptional.get();*/
 
         Product beefProtein = new Product();
-        beefProtein.setName("Beef Protein");
-        beefProtein.setPrice(6990);
-        beefProtein.setServings(33);
-        beefProtein.setPack("1000 g");
+        beefProtein.setName("Jumbo Hardcore");
+        beefProtein.setPrice(50);
+        beefProtein.setServings(20);
+        beefProtein.setPack("3060 g");
         beefProtein.setLevel(Level.ADVANCED);
-        beefProtein.setDescription("A 100% BEEF CONCENTRATE kiváló alternatívája a tejfehérjéknek, \n" +
-                "és különösen az ellentmondásos szójafehérjéknek. \n" +
-                "Számos embernek okoz komoly problémát a laktóz-érzékenység vagy a tejallergia, \n" +
-                "míg mások a paleolit diéta bizonyos formáját követik, ahol a tejtermékeket kizárják és \n" +
-                "a hús alapú fehérje forrásokat priorizálják. (A marhahús alapanyag nem tartalmaz laktózt,\n " +
-                "de a terméket laktózt tartalmazó tejterméket feldolgozó üzemben állítják elő!) \n" +
-                "A marhafehérjénkben nincs hozzáadott kreatin. Minek kötnéd a kreatin-használatot és \n" +
-                "annak pontos (vagy éppen hogy nem pontos) adagolását fehérjetermékhez? \n" +
-                "Mi nem látjuk ennek értelmét!\n" +
+        beefProtein.setUrl("https://uk.scitecnutrition.com/products/jumbo-hardcore");
+        beefProtein.setDescription("Jumbo Hardcore is our most advanced Mass Gainer. With 46 active ingredients, this truly is the most hardcore of all gainers.\n" +
                 "\n" +
-                "Read more: https://www.scitecnutrition.com/hu/termekek/scitec_nutrition/feherjek/100_beef_concentrate");
+                "Its unique blend of high-quality protein, carbohydrates and creatines make it the go-to gainer for those looking for serious mass. It's often difficult to add quality calories from just food alone. Adding Jumbo Hardcore to your routine makes meeting your intake goals that little bit easier. \n" +
+                "\n" +
+                "A complete product ideal for those who want everything they need in one convenient product. The ultimate mass gainer with high-quality whey protein, multi-source carbohydrates and 6 types of creatine. \n" +
+                "Read more: https://uk.scitecnutrition.com/products/jumbo-hardcore");
 
         Details beefProteinDetails = new Details();
         Components beef = new Components();
         beef.setName("beef");
-        beefProteinDetails.ingredients.add(beef);
-        beefProteinDetails.allergen_info.add(beef);
+        //beefProteinDetails.ingredients.add(beef);
+        //beefProteinDetails.allergen_info.add(beef);
 
-        beefProtein.addDetails(new Details("Chocolate", beefProteinDetails.ingredients, beefProteinDetails.allergen_info, "one scope after workout"));
+        beefProtein.addDetails(new Details("Brownie Praline",
+                "Whey Protein Concentrate (from Milk), Maltodextrin, Oat Flour (Gluten), Flavors (Brownie, Chocolate Praline), Fat-reduced Cocoa Powder (10-12%), Dextrose, Hydrolyzed Beef Protein, Creatine Anhydrous, MicronTec Micronized Creatine Monohydrate, Rice Protein, Palatinose™ Isomaltulose, Taurine, Waxy Maize Starch, L-Glutamine, Highly Branched Cyclic Dextrin, Micronized L-Arginine Base, Micronized L-Leucine, Micellar Casein Concentrate (from Milk), ModCarb™ Gluten Free Grain Blend (Oat, Amaranth, Buckwheat, Millet, Quinoa), Instantized Whey Protein Isolate (from Milk, Emulsier: Soy Lecithin), Micronized L-Isoleucine, Micronized L-Valine, Thickener (Xanthan Gum), Sweeteners (Sucralose, Acesulfame K), Beta-Alanine, L-Ascorbic Acid, Betaine HCl, CreaPep™ [Partially Hydrolyzed Whey Protein, Micellar Casein (from Milk, Emulsier: Soy Lecithin)], Creatine Monohydrate, Glycine, L-Alanine, L-Arginine Alpha-Ketoglutarate 2:1, L-Lysine HCl, L-Phenylalanine, NOP-47™ Milk Protein Hydrolyzate, Creatine Citrate, Creatine Pyruvate, Kre-Alkalyn® (buered Creatine Monohydrate), L-Carnitine L-Tartrate, L-Ornithine HCl, Alpha-Ketoglutarate Calcium, Alpha Lipoic Acid, Garcinia mangostana (Fruit Skin) 10:1 extract, Trifolium pratense (Leaf and Flower) 30:1 extract, Bioperine® (Piper fruit 50:1 extract), Cholecalciferol.",
+                "Manufactured in a facility that processes milk, egg, gluten, soy, peanuts, nuts, celery, fish and crustacean ingredients.",
+                "one scope after workout"));
 
         beefProtein.getCategories().add(proteinCategory);
 

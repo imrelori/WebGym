@@ -17,7 +17,7 @@ public class DetailsCommand {
         private Product product;
         private String flavor_name;
         private String dosage;
-        private Set<ComponentsCommand> ingredients = new HashSet<>();
-        private Set<ComponentsCommand> allergen_info = new HashSet<>();
+        private String ingredient;
+        private String allergen_info;
         private Long productId;
 }

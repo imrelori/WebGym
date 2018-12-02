@@ -1,13 +1,15 @@
 package com.webbuilders.webgym.controller;
 
+import com.webbuilders.webgym.commands.DetailsCommand;
+import com.webbuilders.webgym.commands.ProductCommand;
 import com.webbuilders.webgym.services.DetailService;
 import com.webbuilders.webgym.services.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
 public class DetailController {
 
@@ -23,18 +25,43 @@ public class DetailController {
     @RequestMapping("/product/{productId}/details")
     public String listDetails(@PathVariable String productId, Model model){
 
-        // commandot használni a lazy load error elkerőlése végett Thymeleaf-ben.
         model.addAttribute("product", productService.findProductById(Long.valueOf(productId)));
 
-        return "product/details/list"; //path a html-hez
+        return "product/details/list";
     }
 
     @GetMapping
     @RequestMapping("/product/{productId}/details/{id}/show")
-    public String showProductDetails(@PathVariable String productId,
-                                       @PathVariable String id, Model model){
+    public String showProductDetails(@PathVariable String productId, @PathVariable String id, Model model){
         model.addAttribute("details", detailService.findByProductIdAndDetailId(Long.valueOf(productId), Long.valueOf(id)));
         return "product/details/showDetail";
     }
 
+    @GetMapping
+    @RequestMapping("product/{productId}/detail/new")
+    public String newDetail(@PathVariable String productId, Model model){
+
+        ProductCommand productCommand = productService.findCommandById(Long.valueOf(productId));
+
+        DetailsCommand detailsCommand = new DetailsCommand();
+        detailsCommand.setProductId(Long.valueOf(productId));
+
+        if (detailsCommand != null) {
+            model.addAttribute("details", detailsCommand);
+        } else {
+            model.addAttribute("details", new DetailsCommand());
+        }
+
+        return "product/details/detailform";
+    }
+
+    @PostMapping("product/{productId}/detail")
+    public String saveOrUpdate(@ModelAttribute DetailsCommand command){
+        DetailsCommand savedCommand = detailService.saveDetailCommand(command);
+
+        log.debug("saved product id:" + savedCommand.getProductId());
+        log.debug("saved detail id:" + savedCommand.getId());
+
+        return "redirect:/product/" + savedCommand.getProductId() + "/detail/" + savedCommand.getId() + "/show";
+    }
 }
