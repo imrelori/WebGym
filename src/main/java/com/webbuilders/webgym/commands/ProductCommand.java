@@ -25,5 +25,6 @@ public class ProductCommand {
     private CartLine cartLine;
     private Level level;
     private Set<CategoryCommand> categories = new HashSet<>();
+    private Byte[] image;
 
 }

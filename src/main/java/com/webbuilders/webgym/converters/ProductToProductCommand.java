@@ -34,6 +34,7 @@ public class ProductToProductCommand implements Converter<Product, ProductComman
         productCommand.setPack(product.getPack());
         productCommand.setPrice(product.getPrice());
         productCommand.setServings(product.getServings());
+        productCommand.setImage(product.getImage());
         productCommand.setUrl(product.getUrl());
 
         if (product.getCategories() != null && product.getCategories().size() > 0){
