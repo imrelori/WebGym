@@ -77,23 +77,43 @@
                             <div class="col-md-1">
                                 <a class="btn btn-default" href="#" th:href="@{'/product/' + ${product.id} + '/details'}" role="button">View</a>
                             </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <ul>
-                                    <li th:remove="all">Beef</li>
-                                    <li th:remove="all">Chocolate</li>
-                                    <li th:each="details : ${product.details}"
-                                        th:text="${(details.getFlavor_name() +
-                                        ' ' + details.getAllergen_info() +
-                                        ' - ' + details.getDosage())}">One Half Beef</li>
-                                </ul>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <h5>Flavor(s):</h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ul>
+                                            <li th:each="details : ${product.details}"
+                                                th:text="${(details.getFlavor_name())}"> </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <h5>Allergens:</h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ul>
+                                            <li th:each="details : ${product.details}"
+                                                th:text="${(details.getAllergen_info())}"> </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <h5>Ingredients:</h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <ul>
+                                            <li th:each="details : ${product.details}"
+                                                th:text="${(details.getIngredients())}"> </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h1 class="panel-title" >Description</h1>
@@ -110,6 +130,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>
