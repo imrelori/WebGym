@@ -1,8 +1,6 @@
 package com.webbuilders.webgym.converters;
 
-import com.webbuilders.webgym.commands.ComponentsCommand;
 import com.webbuilders.webgym.commands.DetailsCommand;
-import com.webbuilders.webgym.domain.Components;
 import com.webbuilders.webgym.domain.Details;
 import lombok.Synchronized;
 import org.springframework.core.convert.converter.Converter;
@@ -24,10 +22,12 @@ public class DetailToDetailCommand implements Converter<Details, DetailsCommand>
 
         command.setId(detail.getId());
         if (detail.getProduct() != null) {
-            command.setId(detail.getProduct().getId());
+            command.setProductId(detail.getProduct().getId());
         }
         command.setDosage(detail.getDosage());
         command.setIngredient(detail.getIngredients());
+        command.setFlavor_name(detail.getFlavor_name());
+        command.setAllergen_info(detail.getAllergen_info());
 
         return command;
     }
