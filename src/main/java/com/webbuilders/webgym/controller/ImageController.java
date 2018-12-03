@@ -30,14 +30,14 @@ public class ImageController {
     }
 
     @GetMapping("product/{id}/image")
-    public String showUploadForm(@PathVariable String id, Model model){
+    public String uploadForm(@PathVariable String id, Model model){
         model.addAttribute("product", productService.findCommandById(Long.valueOf(id)));
 
         return "product/imageform";
     }
 
     @PostMapping("product/{id}/image")
-    public String handleImagePost(@PathVariable String id,
+    public String imagePosting(@PathVariable String id,
                                   @RequestParam("imagefile") MultipartFile file){
 
         imageService.saveImageFile(Long.valueOf(id), file);
@@ -46,7 +46,7 @@ public class ImageController {
     }
 
     @GetMapping("product/{id}/imageOfProduct")
-    public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
+    public void showImage(@PathVariable String id, HttpServletResponse response) throws IOException {
         ProductCommand productCommand = productService.findCommandById(Long.valueOf(id));
 
         if (productCommand.getImage() != null) {
@@ -57,7 +57,7 @@ public class ImageController {
                 byteArray[i++] = wrappedByte;
             }
 
-            response.setContentType("image/jpeg");
+            response.setContentType("image/jpg");
             InputStream is = new ByteArrayInputStream(byteArray);
             IOUtils.copy(is, response.getOutputStream());
         }

@@ -39,6 +39,10 @@
                             <div class="col-md-3">
                                 <h1 class="panel-title" th:text="${product.name}">Product Description</h1>
                             </div>
+                            <div class="col-md-6">
+                                <img th:src="@{/images/scitec_jumbo_hardcore_3060g_brownie_praline.jpg}"
+                                     width="200" height="250"/>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-1">
@@ -57,11 +61,6 @@
                                         th:text="${category.description}">category two</li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <img src="../../images/scitec_jumbo_hardcore_3060g_brownie_praline.jpg"
-                                 th:src="@{'/product/' + ${product.id} + '/imageOfProduct'}"
-                                 width="200" height="250">
                         </div>
                         <div class="row">
                             <div class="col-md-3">
@@ -92,10 +91,10 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <h5>Flavor(s):</h5>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-7">
                                         <ul>
                                             <li th:each="details : ${product.details}"
                                                 th:text="${(details.getFlavor_name())}"> </li>
@@ -103,25 +102,21 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <h5>Allergens:</h5>
                                     </div>
-                                    <div class="col-md-3">
-                                        <ul>
-                                            <li th:each="details : ${product.details}"
-                                                th:text="${(details.getAllergen_info())}"> </li>
-                                        </ul>
+                                    <div class="col-md-7">
+                                            <p th:each="details : ${product.details}"
+                                                th:text="${(details.getAllergen_info())}"> </p>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <h5>Ingredients:</h5>
                                     </div>
-                                    <div class="col-md-3">
-                                        <ul>
-                                            <li th:each="details : ${product.details}"
-                                                th:text="${(details.getIngredients())}"> </li>
-                                        </ul>
+                                    <div class="col-md-7">
+                                            <p th:each="details : ${product.details}"
+                                                th:text="${(details.getIngredients())}"> </p>
                                     </div>
                                 </div>
                             </div>

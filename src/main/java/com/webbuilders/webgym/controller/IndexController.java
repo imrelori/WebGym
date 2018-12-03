@@ -16,9 +16,18 @@ public class IndexController {
         this.productService = productService;
     }
 
-    @RequestMapping({"", "/", "/index"})
+    @RequestMapping({"", "/", "/home"})
+    public String getHomePage() {
+    log.debug("Home page is up");
+
+        //model.addAttribute("products", productService.getProducts());
+
+        return "homepage";
+    }
+
+    @RequestMapping({"/index"})
     public String getIndexPage(Model model) {
-    log.debug("Index page is up");
+        log.debug("Index page is up");
 
         model.addAttribute("products", productService.getProducts());
 

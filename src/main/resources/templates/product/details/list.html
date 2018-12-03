@@ -40,7 +40,7 @@
                             <h1 class="panel-title">Details</h1>
                         </div>
                         <div class="col-md-1">
-                            <a class="btn btn-default" href="#" th:href="@{'/product/' + ${product.id} + '/detail/new'}" role="button">New</a>
+                            <a class="btn btn-default" href="#" th:href="@{'/product/' + ${product.id} + '/detail/new'}" role="button">Create New Detail</a>
                         </div>
                     </div>
 
@@ -59,13 +59,6 @@
                                 <th>View</th>
                             </tr>
                             </thead>
-                            <!--<tr th:remove="all">
-                                <td>123</td>
-                                <td>Beef Protein</td>
-                                <td><a href="#">View</a></td>
-                                <td><a href="#">Update</a></td>
-                                <td><a href="#">Delete</a></td>
-                            </tr>-->
                             <tr th:each="detail : ${product.details}">
                                 <td th:text="${detail.id}">334</td>
                                 <td th:text="${detail.flavor_name}">Chocolate</td>
