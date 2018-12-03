@@ -50,8 +50,8 @@
                                 <div class="col-md-3 form-group">
                                     <label>Categories:</label>
                                     <select class="form-control" id="category" name="category">
-                                        <option>Protein</option>
-                                        <option>Gainer</option>
+                                        <option value="Protein">Protein</option>
+                                        <option value="Gainer">Gainer</option>
                                     </select>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                     <input type="text" class="form-control" th:field="*{servings}"/>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>Price:</label>
+                                    <label>Price($):</label>
                                     <input type="text" class="form-control" th:field="*{price}"/>
                                 </div>
                                 <div class="col-md-3 form-group">
