@@ -2,6 +2,7 @@ package com.webbuilders.webgym.services;
 
 import com.webbuilders.webgym.commands.DetailsCommand;
 import com.webbuilders.webgym.converters.ComponentToComponentCommand;
+import com.webbuilders.webgym.converters.DetailCommandToDetail;
 import com.webbuilders.webgym.converters.DetailToDetailCommand;
 import com.webbuilders.webgym.domain.Details;
 import com.webbuilders.webgym.domain.Product;
@@ -20,6 +21,8 @@ public class DetailServiceTest {
 
     DetailServiceImpl detailService;
     DetailToDetailCommand detailToDetailCommand;
+    DetailCommandToDetail detailCommandToDetail;
+
     Long productId = 1L;
     Long detailsId = 1L;
     Long productIdFail = 2L;
@@ -36,10 +39,10 @@ public class DetailServiceTest {
 
         MockitoAnnotations.initMocks(this);
 
-        ComponentToComponentCommand cc = new ComponentToComponentCommand();
-        detailToDetailCommand = new DetailToDetailCommand(cc);
+        detailToDetailCommand = new DetailToDetailCommand();
+        detailCommandToDetail = new DetailCommandToDetail();
 
-        detailService = new DetailServiceImpl(productRepository, detailToDetailCommand);
+        detailService = new DetailServiceImpl(productRepository, detailToDetailCommand, detailCommandToDetail);
         product = new Product();
         details = new Details();
     }

@@ -18,7 +18,6 @@ public class ProductCommandToProductTest {
 
     CategoryCommandToCategory categoryCommandToCategory;
     DetailCommandToDetail detailCommandToDetail;
-    ComponentCommandToComponent componentCommandToComponent;
 
     ProductCommandToProduct productCommandToProduct;
     ProductCommand productCommand;
@@ -37,8 +36,7 @@ public class ProductCommandToProductTest {
     public void setUp() throws Exception {
 
         categoryCommandToCategory = new CategoryCommandToCategory();
-        componentCommandToComponent = new ComponentCommandToComponent();
-        detailCommandToDetail = new DetailCommandToDetail(componentCommandToComponent);
+        detailCommandToDetail = new DetailCommandToDetail();
         productCommandToProduct = new ProductCommandToProduct(categoryCommandToCategory, detailCommandToDetail);
 
         productCommand = new ProductCommand();
@@ -58,7 +56,7 @@ public class ProductCommandToProductTest {
 
         productCommand = null;
 
-        assertEquals(productCommandToProduct.convert(productCommand), null);
+        assertNull(productCommandToProduct.convert(productCommand));
     }
 
     @Test
