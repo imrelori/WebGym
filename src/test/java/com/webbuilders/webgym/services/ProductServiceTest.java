@@ -44,11 +44,11 @@ public class ProductServiceTest {
 
         componentCommandToComponent = new ComponentCommandToComponent();
         categoryCommandToCategory = new CategoryCommandToCategory();
-        detailCommandToDetail = new DetailCommandToDetail(componentCommandToComponent);
+        detailCommandToDetail = new DetailCommandToDetail();
         productCommandToProduct = new ProductCommandToProduct(categoryCommandToCategory, detailCommandToDetail);
 
         componentToComponentCommand = new ComponentToComponentCommand();
-        detailToDetailCommand = new DetailToDetailCommand(componentToComponentCommand);
+        detailToDetailCommand = new DetailToDetailCommand();
         categoryToCategoryCommand = new CategoryToCategoryCommand();
         productToProductCommand = new ProductToProductCommand(detailToDetailCommand, categoryToCategoryCommand);
 

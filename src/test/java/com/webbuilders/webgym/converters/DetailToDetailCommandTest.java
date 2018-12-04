@@ -14,7 +14,6 @@ import static org.junit.Assert.*;
 
 public class DetailToDetailCommandTest {
 
-    ComponentToComponentCommand componentToComponentCommand;
     DetailToDetailCommand detailToDetailCommand;
     Details details;
     Long id = 1L;
@@ -24,8 +23,7 @@ public class DetailToDetailCommandTest {
     @Before
     public void setUp() throws Exception {
 
-        componentToComponentCommand = new ComponentToComponentCommand();
-        detailToDetailCommand = new DetailToDetailCommand(componentToComponentCommand);
+        detailToDetailCommand = new DetailToDetailCommand();
         details = new Details();
         details.setId(id);
         details.setDosage(dosage);
@@ -36,7 +34,7 @@ public class DetailToDetailCommandTest {
 
         details = null;
 
-        assertEquals(detailToDetailCommand.convert(details), null);
+        assertNull(detailToDetailCommand.convert(details));
     }
 
     @Test
@@ -46,8 +44,9 @@ public class DetailToDetailCommandTest {
 
         assertEquals(result.getId(), id);
         assertEquals(result.getDosage(), dosage);
-        assertTrue(result.getAllergen_info().isEmpty());
-        assertTrue(result.getIngredients().isEmpty());
+        assertNull(result.getAllergen_info());
+        assertNull(result.getIngredient());
+        assertNull(result.getFlavor_name());
     }
 
     @Test
@@ -57,27 +56,21 @@ public class DetailToDetailCommandTest {
         product.setId(productId);
         details.setProduct(product);
 
-        String allergenName = "allergenName";
-        Components allergen = new Components();
-        allergen.setName(allergenName);
-        Set<Components> allergens = new HashSet<>();
-        allergens.add(allergen);
-        details.setAllergen_info(allergens);
+        String allergen = "allergen";
+        details.setAllergen_info(allergen);
 
-        String ingredientName = "ingredientName";
-        Components ingredient = new Components();
-        ingredient.setName(ingredientName);
-        Set<Components> ingredients = new HashSet<>();
-        ingredients.add(ingredient);
-        details.setIngredients(ingredients);
+        String ingredient = "ingredient";
+        details.setIngredients(ingredient);
+
+        String flavor_name = "Choco";
+        details.setFlavor_name(flavor_name);
 
         DetailsCommand result = detailToDetailCommand.convert(details);
 
-        assertEquals(result.getId(), productId);
+        assertEquals(result.getId(), id);
         assertEquals(result.getDosage(), dosage);
-        assertEquals(result.getAllergen_info().size(), 1);
-        assertEquals(result.getAllergen_info().stream().findFirst().get().getName(), allergenName);
-        assertEquals(result.getIngredients().size(), 1);
-        assertEquals(result.getIngredients().stream().findFirst().get().getName(), ingredientName);
+        assertEquals(result.getFlavor_name(), flavor_name);
+        assertEquals(result.getIngredient(), ingredient);
+        assertEquals(result.getAllergen_info(), allergen);
     }
 }

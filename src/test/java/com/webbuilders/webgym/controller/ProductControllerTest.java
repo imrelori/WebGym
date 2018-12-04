@@ -64,9 +64,9 @@ public class ProductControllerTest {
 
         String viewName = controller.newProduct(model);
 
-        assertEquals("product/formofnewproduct", viewName);
+        assertEquals("product/productform", viewName);
         verify(model, times(1))
-                .addAttribute(eq("recipe"), argumentCaptor.capture());
+                .addAttribute(eq("product"), argumentCaptor.capture());
 
         ProductCommand productCommandInController = argumentCaptor.getValue();
 
