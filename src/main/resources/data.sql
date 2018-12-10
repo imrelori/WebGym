@@ -5,6 +5,5 @@ INSERT INTO category (description) VALUES ('Creatine');
 INSERT INTO category (description) VALUES ('Vitamin');
 INSERT INTO category (description) VALUES ('Gainer');
 INSERT INTO category (description) VALUES ('Fat burner');
-INSERT INTO user (email, first_name, last_name, password, role) VALUES ('imrelori@hotmail.hu', 'Lorant', 'Imre', 'root', 'admin');
-INSERT INTO user (role) VALUES ('guest');
-INSERT INTO user (role) VALUES ('registered user');
+                                                              --ASDqwe123ASD
+INSERT INTO user (email, password) VALUES ('test@test.com', '$2y$12$perlEUbOvPNmdPsZfoshqO/QnfXH81aC7.xEDqGqwPWqJh2oM/4Eu');

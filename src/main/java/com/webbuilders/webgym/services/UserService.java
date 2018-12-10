@@ -23,4 +23,10 @@ public interface UserService {
      */
     User getUserByID(Long id);
 
+    User findByEmail(String email);
+
+    User findByConfirmationToken(String confirmationToken);
+
+    void saveUser(User user);
+
 }

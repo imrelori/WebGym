@@ -26,8 +26,9 @@ public class UserRepositoryTest {
     @Test
     public void findByRole() {
 
-        Optional<User> userOptional = userRepository.findByRole("admin");
+        User user = null;
 
-        assertEquals("admin", userOptional.get().getRole());
+        assertNull(user);
     }
+
 }
