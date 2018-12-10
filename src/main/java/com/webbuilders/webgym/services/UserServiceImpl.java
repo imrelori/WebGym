@@ -39,4 +39,31 @@ public class UserServiceImpl implements UserService {
 
         return userOptional.get();
     }
+
+    @Override
+    public User findByEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+
+        if (!userOptional.isPresent()) {
+            throw new RuntimeException("There is no user with the email: " + email);
+        }
+
+        return userOptional.get();
+    }
+
+    @Override
+    public User findByConfirmationToken(String confirmationToken) {
+        Optional<User> userOptional = userRepository.findByConfirmationToken(confirmationToken);
+
+        if (!userOptional.isPresent()) {
+            throw new RuntimeException("There is no confirmationToken: " + confirmationToken);
+        }
+
+        return userOptional.get();
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
 }

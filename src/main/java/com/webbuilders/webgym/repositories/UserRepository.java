@@ -9,4 +9,8 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     Optional<User> findByRole(String role);
 
+    Optional<User> findByEmail(String email);
+
+    Optional<User> findByConfirmationToken(String confirmationToken);
+
 }
